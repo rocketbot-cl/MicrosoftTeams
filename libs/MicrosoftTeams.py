@@ -33,16 +33,14 @@ class MicrosoftTeams:
             a json with the credentials, or an error response.
         """
         url, params = self.build_request(auth_code_or_refresh_token, grant_type)
-        try:
-            response = requests.post(url, data=params)
-            response.raise_for_status() # Raise HTTPError for bad responses (4xx or 5xx)
-            json_response = response.json()
-            self.access_token = json_response.get('access_token')
-            self.refresh_token = json_response.get('refresh_token', self.refresh_token) # Keep old refresh token if new one not provided
-            return json_response
-        except requests.exceptions.RequestException as e:
-            print(f"Error getting token: {e}")
-            return {'error': f'Failed to get token: {e}', 'response_text': response.text if response else None}
+
+        response = requests.post(url, data=params)
+        response.raise_for_status() 
+        json_response = response.json()
+        self.access_token = json_response.get('access_token')
+        self.refresh_token = json_response.get('refresh_token', self.refresh_token) # Keep old refresh token if new one not provided
+        return json_response
+
 
     def build_request(self, auth_code_or_refresh_token, grant_type):
         """ Build the token request parameters.
