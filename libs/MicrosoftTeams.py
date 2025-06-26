@@ -8,7 +8,10 @@ class MicrosoftTeams:
         self.client_secret = client_secret
         # Default scope for common Teams operations. Adjust as needed based on required permissions.
         # https://learn.microsoft.com/en-us/graph/permissions-reference#teams-permissions
-        self.scope = 'Team.ReadBasic.All Channel.ReadBasic.All ChannelMessage.Read.All ChannelMessage.Send Chat.Read Chat.ReadWrite offline_access'
+        #self.scope ='https://graph.microsoft.com/.default'
+        self.scope = 'Channel.ReadBasic.All ChannelMessage.Read.All ChannelMessage.ReadWrite ChannelMessage.Send Chat.Create Chat.ManageDeletion.All Chat.Read Chat.ReadWrite Chat.ReadWrite.All Team.Create Team.ReadBasic.All TeamMember.Read.All TeamMember.ReadWrite.All offline_access'
+        #self.scope = 'Team.ReadBasic.All offline_access'
+        
         self.redirect_uri = redirect_uri
         self.tenant = tenant
         self.access_token = None
@@ -32,9 +35,12 @@ class MicrosoftTeams:
         dict
             a json with the credentials, or an error response.
         """
+        #print("aqui")
         url, params = self.build_request(auth_code_or_refresh_token, grant_type)
-
         response = requests.post(url, data=params)
+        #print("REQUEST PARAMS:", params)
+        #print("RESPONSE CODE:", response.status_code)
+        #print("RESPONSE BODY:", response.text)
         response.raise_for_status() 
         json_response = response.json()
         self.access_token = json_response.get('access_token')

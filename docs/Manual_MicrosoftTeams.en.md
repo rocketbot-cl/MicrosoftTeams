@@ -17,7 +17,7 @@ To install the module in Rocketbot Studio, it can be done in two ways:
 
 ## How to use this module
 
-Before using this module, you need to register your app in the Azure App Registrations portal.
+Before using this module, you need a corporate email account and must register your application in the Azure App Registrations portal.
 
 1. Sign in to the Azure portal (Applications Registration: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade ).
 2. Select "New registration".
@@ -27,14 +27,16 @@ Before using this module, you need to register your app in the Azure App Registr
     - "Personal Microsoft accounts only" for this case use use Tenant ID = **consumers**.
 4. Set the redirect uri (Web) as: https://localhost:5001/ and click "Register".
 5. Copy the application (client) ID. You will need this value.
-6. Under "Certificates and secrets", generate a new client secret. Set the expiration 
-(preferably 24 months). Copy the **VALUE** of the created client secret (NOT the Secret ID). It will hide after a few minutes.
-7. Under "API permissions", click "Add a permission", select "Microsoft Graph", then "Delegated permissions", find and select "Directory.ReadWrite.All", "Group.ReadWrite.All", "TeamMember.ReadWrite.All", "ChannelSettings.Read.All", "ChannelSettings.ReadWrite.All", "Directory.Read.All", "Group.Read.All", "ChannelMessage.Read.All" and finally "Add permissions".
+6. Under "Certificates and secrets", generate 
+a new client secret. Set the expiration (preferably 24 months). Copy the **VALUE** of the created client secret (NOT the Secret ID). It will hide after a few minutes.
+7. Under "API permissions", click "Add a permission", select "Microsoft Graph", then "Delegated permissions", find and select **"Channel.ReadBasic.All"**, **"ChannelMessage.Read.All"**, **"ChannelMessage.ReadWrite"**, **"ChannelMessage.Send"**, **"Chat.Create"**, **"Chat.ManageDeletion.All"**, **"Chat.Read"**, **"Chat.ReadWrite"**, **"Chat.ReadWrite.All"**, **"Team.Create"**, **"Team.ReadBasic.All"**, **"TeamMember.Read.All"**, **"TeamMember.ReadWrite.All"** and finally "Add permissions".
+
 8. Access code, generate code by entering the following link:
-https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?client_id={**client_id**}&response_type=code&redirect_uri={**redirect_uri**}&response_mode=query&scope=offline_access%20files.readwrite.all&state=12345
+
+https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?client_id={**client_id**}&response_type=code&redirect_uri={**redirect_uri**}&response_mode=query&scope=offline_access%20Channel.ReadBasic.All%20ChannelMessage.Read.All%20ChannelMessage.ReadWrite%20ChannelMessage.Send%20Chat.Create%20Chat.ManageDeletion.All%20Chat.Read%20Chat.ReadWrite%20Chat.ReadWrite.All%20Team.Create%20Team.ReadBasic.All%20TeamMember.Read.All%20TeamMember.ReadWrite.All&state=12345
 Replace within the link {tennat}, {client_id} and {redirect_uri}, with the data corresponding to the created application.
-9. If the operation was successful, the browser URL will change to: 
-http://localhost:5001/?code={**CODE**}&state=12345#!/
+
+9. If the operation was successful, the browser URL will change to: http://localhost:5001/?code={**CODE**}&state=12345#!/
 The value that appears in {CODE}, copy it and use it in the Rocketbot command in the "code" field to make the connection.
 
 Note: The browser will NOT load any pages.

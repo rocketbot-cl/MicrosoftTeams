@@ -83,7 +83,6 @@ if module == "setCredentials":
             auth_param = {'code': code}
             response = mod_Teams_session[session].get_token(auth_param, grant_type)
         is_connected = mod_Teams_session[session].create_tokens_file(response)
-
         SetVar(res,is_connected)
 
     except Exception as e:

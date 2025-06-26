@@ -18,7 +18,7 @@ Para instalar el módulo en Rocketbot Studio, se puede hacer de dos formas:
 
 ## Como usar este modulo
 
-Antes de usar este modulo, es necesario registrar tu aplicación en el portal de Azure App Registrations. 
+Antes de usar este modulo, es necesario contar con una cuenta de correo coorporativa y registrar tu aplicación en el portal de Azure App Registrations. 
 
 1. Inicie sesión en Azure Portal (Registración de aplicaciones: https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade ).
 2. Seleccione "Nuevo registro".
@@ -27,14 +27,16 @@ Antes de usar este modulo, es necesario registrar tu aplicación en el portal de
     - "Solo cuentas de este directorio organizativo (solo esta cuenta: inquilino único) para este caso utilizar **ID Inquilino** especifico de la aplicación.
     - "Solo cuentas personales de Microsoft " for this case use use Tenant ID = **consumers**.
 4. Establezca la uri de redirección (Web) como: https://localhost:5001/ y haga click en "Registrar".
-5. Copie el ID de la aplicación (cliente). Necesitará este valor.
-
+5. Copie el ID de la
+ aplicación (cliente). Necesitará este valor.
 6. Dentro de "Certificados y secretos", genere un nuevo secreto de cliente. Establezca la caducidad (preferiblemente 24 meses). Copie el VALOR del secreto de cliente creado (NO el ID de Secreto). El mismo se ocultará al cabo de unos minutos.
-7. Dentro de "Permisos de API", haga click en "Agregar un permiso", seleccione "Microsoft Graph", luego "Permisos delegados", busque y seleccione "Directory.ReadWrite.All", "Group.ReadWrite.All", "TeamMember.ReadWrite.All", "ChannelSettings.Read.All", "ChannelSettings.ReadWrite.All", "Directory.Read.All", "Group.Read.All", "ChannelMessage.Read.All" y por ultimo "Agregar permisos".
+7. Dentro de "Permisos de API", haga click en "Agregar un permiso", seleccione "Microsoft Graph", luego "Permisos delegados", busque y seleccione **"Channel.ReadBasic.All"**, **"ChannelMessage.Read.All"**, **"ChannelMessage.ReadWrite"**, **"ChannelMessage.Send"**, **"Chat.Create"**, **"Chat.ManageDeletion.All"**, **"Chat.Read"**, **"Chat.ReadWrite"**, **"Chat.ReadWrite.All"**, **"Team.Create"**, **"Team.ReadBasic.All"**, **"TeamMember.Read.All"**, **"TeamMember.ReadWrite.All"** y por ultimo "Agregar permisos".
+
 8. Codigo de acceso, generar codigo ingresando al siguiente link:
-https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?client_id={**client_id**}&response_type=code&redirect_uri={**redirect_uri**}&response_mode=query&scope=offline_access%20files.readwrite.all&state=12345
-Reemplazar dentro del link {tennat}, {client_id} y {redirect_uri}, por los datos 
-correspondientes a la applicación creada.
+
+https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize?client_id={**client_id**}&response_type=code&redirect_uri={**redirect_uri**}&response_mode=query&scope=offline_access%20Channel.ReadBasic.All%20ChannelMessage.Read.All%20ChannelMessage.ReadWrite%20ChannelMessage.Send%20Chat.Create%20Chat.ManageDeletion.All%20Chat.Read%20Chat.ReadWrite%20Chat.ReadWrite.All%20Team.Create%20Team.ReadBasic.All%20TeamMember.Read.All%20TeamMember.ReadWrite.All&state=12345
+Reemplazar dentro del link {tennat}, {client_id} y {redirect_uri}, por los datos correspondientes a la applicación creada.
+
 9. Si la operación tuvo exito, la URL del navedador cambiara por: http://localhost:5001/?code={**CODE**}&state=12345#!/ 
 El valor que figurara en {CODE}, copiarlo y utilizarlo en el comando de Rocketbot en el campo "code" para realizar la conexión.
 
