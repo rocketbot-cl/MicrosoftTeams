@@ -8,7 +8,7 @@ Este módulo permite conectarse a la API de Microsoft Teams crear y administrar 
 
 *Read this in other languages: [English](Manual_MicrosoftTeams.md), [Português](Manual_MicrosoftTeams.pr.md), [Español](Manual_MicrosoftTeams.es.md)*
   
-![banner](imgs/Banner_MicrosoftTeams.png o jpg)
+![banner](imgs/Modulo_Teams.jpg)
 ## Como instalar este módulo
   
 Para instalar el módulo en Rocketbot Studio, se puede hacer de dos formas:

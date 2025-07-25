@@ -8,7 +8,7 @@ This module allows you to connect to the Microsoft Teams API to create and manag
 
 *Read this in other languages: [English](Manual_MicrosoftTeams.md), [Português](Manual_MicrosoftTeams.pr.md), [Español](Manual_MicrosoftTeams.es.md)*
   
-![banner](imgs/Banner_MicrosoftTeams.png o jpg)
+![banner](imgs/Modulo_Teams.jpg)
 ## How to install this module
   
 To install the module in Rocketbot Studio, it can be done in two ways:

@@ -8,7 +8,7 @@
 
 *Read this in other languages: [English](Manual_MicrosoftTeams.md), [Português](Manual_MicrosoftTeams.pr.md), [Español](Manual_MicrosoftTeams.es.md)*
   
-![banner](imgs/Banner_MicrosoftTeams.png o jpg)
+![banner](imgs/Modulo_Teams.jpg)
 ## Como instalar este módulo
   
 Para instalar o módulo no Rocketbot Studio, pode ser feito de duas formas:
