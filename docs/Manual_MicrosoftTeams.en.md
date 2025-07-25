@@ -196,5 +196,6 @@ Send a message to a channel
 |Channel ID|Channel ID|id|
 |Message body|Message body|content|
 |Subject|Subject|subject|
+|Attached File|Path of the file that we want to attach|C:\User\Desktop\test.png|
 |Result|Variable to store result. If the task is successful, it will return True, otherwise it will return False|res|
 |session|Session ID|session|

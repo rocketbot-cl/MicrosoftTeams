@@ -196,5 +196,6 @@ Enviar uma mensagem para um canal
 |ID do canal|ID do canal|id|
 |Corpo da mensagem|Corpo da mensagem|content|
 |Assunto|Assunto|subject|
+|Arquivo anexo|Caminho do arquivo a ser anexado|C:\User\Desktop\test.png|
 |Resultado|Variável para armazenar resultado. Se a tarefa for bem sucedida, retornará True, caso contrário, retornará False|res|
 |session|ID da sessão|session|
