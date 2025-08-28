@@ -197,5 +197,6 @@ Enviar un mensaje a un canal
 |ID del Canal|ID del Canal|id|
 |Cuerpo del mensaje|Cuerpo del mensaje|content|
 |Asunto|Asunto|subject|
+|Archivo Adjunto|Ruta del archivo que se desea adjuntar|C:\User\Desktop\test.png|
 |Resultado|Variable para guardar resultado. Si la operacion es exitosa retornara True, caso contrario sera False|res|
 |session|Identificador de sesión|session|

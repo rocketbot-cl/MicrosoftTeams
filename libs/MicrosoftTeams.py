@@ -1,5 +1,9 @@
 import requests
 import json
+import base64
+import mimetypes
+
+
 import os
 
 class MicrosoftTeams:
@@ -291,24 +295,42 @@ class MicrosoftTeams:
         """ Gets details for a specific message in a channel. """
         return self._graph_request('GET', f'teams/{team_id}/channels/{channel_id}/messages/{message_id}')
 
-    def send_channel_message(self, team_id, channel_id, content, subject=None, attachments=None, mentions=None):
-        """ Sends a message to a channel.
-            https://learn.microsoft.com/en-us/graph/api/channelmessage-post?view=graph-rest-v1.0&tabs=http
-        """
+  
+    def send_channel_message(self, team_id, channel_id, content, subject=None, image_path=None, mentions=None):
         payload = {
             "body": {
-                "content": content
+                "contentType": "html",
+                "content": content  
             }
         }
+
         if subject:
             payload['subject'] = subject
-        if attachments:
-             # Attachments require specific formatting, see Graph API docs
-             payload['attachments'] = attachments
-        if mentions:
-             # Mentions require specific formatting, see Graph API docs
-             payload['mentions'] = mentions
 
+        if image_path:
+            with open(image_path, "rb") as image_file:
+                base64_image = base64.b64encode(image_file.read()).decode("utf-8")
+            
+            # Detectar el tipo MIME automáticamente    
+            mime_type, _ = mimetypes.guess_type(image_path)
+            mime_type = mime_type or "application/octet-stream" 
+
+            # Añadir imagen como hostedContent
+            temp_id = "1"  
+        
+            # HTML embebido con la imagen
+            payload["body"]["content"] += f'<br><img src="../hostedContents/{temp_id}/$value" height="300" width="300">'
+            
+            payload["hostedContents"] = [
+                {
+                    "@microsoft.graph.temporaryId": temp_id,
+                    "contentBytes": base64_image,
+                    "contentType": mime_type  
+                }
+            ]
+
+        if mentions:
+            payload["mentions"] = mentions
 
         return self._graph_request('POST', f'teams/{team_id}/channels/{channel_id}/messages', json_data=payload)
 

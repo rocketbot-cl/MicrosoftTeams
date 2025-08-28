@@ -303,10 +303,11 @@ if module == "sendChannelMessage":
     channel_id = GetParams("channel_id")
     content = GetParams("content") 
     subject = GetParams("subject") or None 
+    image_path = GetParams("attached_file") or None
     res = GetParams("res") 
 
     try:
-            response = mod_Teams_session[session].send_channel_message(team_id, channel_id, content, subject=subject)
+            response = mod_Teams_session[session].send_channel_message(team_id, channel_id, content, subject=subject, image_path=image_path)
             SetVar(res, response) 
     except Exception as e:
             PrintException(e)

@@ -70,8 +70,6 @@ Enviar un mensaje a un canal
 ### OS
 
 - windows
-- mac
-- linux
 
 ### Dependencies
 
