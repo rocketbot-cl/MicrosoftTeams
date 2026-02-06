@@ -13,7 +13,7 @@ class MicrosoftTeams:
         # Default scope for common Teams operations. Adjust as needed based on required permissions.
         # https://learn.microsoft.com/en-us/graph/permissions-reference#teams-permissions
         #self.scope ='https://graph.microsoft.com/.default'
-        self.scope = 'Channel.ReadBasic.All ChannelMessage.Read.All ChannelMessage.ReadWrite ChannelMessage.Send Chat.Create Chat.ManageDeletion.All Chat.Read Chat.ReadWrite Chat.ReadWrite.All Team.Create Team.ReadBasic.All TeamMember.Read.All TeamMember.ReadWrite.All offline_access'
+        self.scope = 'Channel.ReadBasic.All ChannelMessage.Send Team.ReadBasic.All offline_access'
         #self.scope = 'Team.ReadBasic.All offline_access'
         
         self.redirect_uri = redirect_uri
@@ -45,7 +45,16 @@ class MicrosoftTeams:
         #print("REQUEST PARAMS:", params)
         #print("RESPONSE CODE:", response.status_code)
         #print("RESPONSE BODY:", response.text)
-        response.raise_for_status() 
+        if response.status_code >= 400:
+            try:
+                return {"error": "token_request_failed",
+                        "status": response.status_code,
+                        "details": response.json()}
+            except Exception:
+                return {"error": "token_request_failed",
+                        "status": response.status_code,
+                        "details_raw": response.text}
+        # response.raise_for_status() 
         json_response = response.json()
         self.access_token = json_response.get('access_token')
         self.refresh_token = json_response.get('refresh_token', self.refresh_token) # Keep old refresh token if new one not provided
