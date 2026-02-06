@@ -227,8 +227,14 @@ class MicrosoftTeams:
             params['$filter'] = filter_by
         if order_by:
             params['$orderby'] = order_by
-        if top:
-             params['$top'] = top # $top is not always supported by Graph API list methods
+        # if top:
+        #     params['$top'] = top # $top is not always supported by Graph API list methods
+        if top is not None and str(top).strip() != "":
+            top_str = str(top).strip()
+            top_str = "".join(c for c in top_str if c.isdigit())
+            if top_str:
+                top_int = int(top_str)
+                params["$top"] = top_int
 
         all_channels = []
         response = self._graph_request('GET', url_suffix, params=params)
