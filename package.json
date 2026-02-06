@@ -907,7 +907,7 @@
             },
             "remove_vars": true,
             "id": "res",
-            "css": "col-md-12"
+            "css": "col-md-6"
           },
           {
             "type": "input",
@@ -1051,7 +1051,7 @@
             },
             "remove_vars": true,
             "id": "res",
-            "css": "col-md-12"
+            "css": "col-md-6"
           },
           {
             "type": "input",
