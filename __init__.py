@@ -157,21 +157,19 @@ if module == "deleteTeam":
         SetVar(res, {'error': f'Excepción eliminando equipo: {e}'})
         raise e
 
-# Listar miembros de un equipo
 if module == "listMembers":
     team_id = GetParams("team_id")
     res = GetParams("res")
 
     try:
         response = mod_Teams_session[session].list_members(team_id)
-        SetVar(res, members_list)
+        SetVar(res, response)
 
     except Exception as e:
         PrintException(e)
         SetVar(res, {'error': f'Excepción listando miembros: {e}'})
         raise e
 
-# Añadir miembro a un equipo
 if module == "addMember":
     team_id = GetParams("team_id")
     user_id = GetParams("user_id") or None # User's object ID
@@ -179,7 +177,6 @@ if module == "addMember":
     res = GetParams("res")
 
     try:
-        # Pass either user_id or user_principal_name to the library function
         response = mod_Teams_session[session].add_member(team_id, user_id=user_id, user_principal_name=user_principal_name)
         SetVar(res, response)
     except Exception as e:
