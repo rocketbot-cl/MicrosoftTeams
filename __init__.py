@@ -214,6 +214,8 @@ if module == "listChannels":
         if 'error' not in response:
             channels_list = [{'id': channel.get('id'), 'displayName': channel.get('displayName'), 'description': channel.get('description')} for channel in response.get('value', [])]
             SetVar(res, channels_list)
+        else:
+            SetVar(res, response)
 
     except Exception as e:
             PrintException(e)

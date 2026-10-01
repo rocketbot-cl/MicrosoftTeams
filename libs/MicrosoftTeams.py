@@ -13,7 +13,7 @@ class MicrosoftTeams:
         # Default scope for common Teams operations. Adjust as needed based on required permissions.
         # https://learn.microsoft.com/en-us/graph/permissions-reference#teams-permissions
         #self.scope ='https://graph.microsoft.com/.default'
-        self.scope = 'Channel.ReadBasic.All ChannelMessage.Read.All ChannelMessage.ReadWrite ChannelMessage.Send Chat.Create Chat.ManageDeletion.All Chat.Read Chat.ReadWrite Chat.ReadWrite.All Team.Create Team.ReadBasic.All TeamMember.Read.All TeamMember.ReadWrite.All offline_access'
+        self.scope = 'Channel.ReadBasic.All ChannelMessage.Send Team.ReadBasic.All offline_access'
         #self.scope = 'Team.ReadBasic.All offline_access'
         
         self.redirect_uri = redirect_uri
@@ -45,7 +45,16 @@ class MicrosoftTeams:
         #print("REQUEST PARAMS:", params)
         #print("RESPONSE CODE:", response.status_code)
         #print("RESPONSE BODY:", response.text)
-        response.raise_for_status() 
+        if response.status_code >= 400:
+            try:
+                return {"error": "token_request_failed",
+                        "status": response.status_code,
+                        "details": response.json()}
+            except Exception:
+                return {"error": "token_request_failed",
+                        "status": response.status_code,
+                        "details_raw": response.text}
+        # response.raise_for_status() 
         json_response = response.json()
         self.access_token = json_response.get('access_token')
         self.refresh_token = json_response.get('refresh_token', self.refresh_token) # Keep old refresh token if new one not provided
@@ -218,8 +227,14 @@ class MicrosoftTeams:
             params['$filter'] = filter_by
         if order_by:
             params['$orderby'] = order_by
-        if top:
-             params['$top'] = top # $top is not always supported by Graph API list methods
+
+        if top is not None:
+            try:
+                top = int(top)
+            except (TypeError, ValueError):
+                return {'error': 'Quantity must be a positive integer'}
+            if top <= 0:
+                return {'error': 'Quantity must be a positive integer'}
 
         all_channels = []
         response = self._graph_request('GET', url_suffix, params=params)
@@ -228,6 +243,8 @@ class MicrosoftTeams:
             return response # Return error immediately
 
         all_channels.extend(response.get('value', []))
+        if top is not None and len(all_channels) >= top:
+            return {'value': all_channels[:top]}
 
         # Handle pagination
         while '@odata.nextLink' in response:
@@ -238,6 +255,8 @@ class MicrosoftTeams:
                 next_response.raise_for_status()
                 response = next_response.json()
                 all_channels.extend(response.get('value', []))
+                if top is not None and len(all_channels) >= top:
+                    return {'value': all_channels[:top]}
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching next page: {e}")
                 return {'error': f'Failed to fetch subsequent pages: {e}', 'partial_results': all_channels}
