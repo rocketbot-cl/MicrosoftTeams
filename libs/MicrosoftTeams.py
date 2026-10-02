@@ -227,14 +227,14 @@ class MicrosoftTeams:
             params['$filter'] = filter_by
         if order_by:
             params['$orderby'] = order_by
-        # if top:
-        #     params['$top'] = top # $top is not always supported by Graph API list methods
-        if top is not None and str(top).strip() != "":
-            top_str = str(top).strip()
-            top_str = "".join(c for c in top_str if c.isdigit())
-            if top_str:
-                top_int = int(top_str)
-                params["$top"] = top_int
+
+        if top is not None:
+            try:
+                top = int(top)
+            except (TypeError, ValueError):
+                return {'error': 'Quantity must be a positive integer'}
+            if top <= 0:
+                return {'error': 'Quantity must be a positive integer'}
 
         all_channels = []
         response = self._graph_request('GET', url_suffix, params=params)
@@ -243,6 +243,8 @@ class MicrosoftTeams:
             return response # Return error immediately
 
         all_channels.extend(response.get('value', []))
+        if top is not None and len(all_channels) >= top:
+            return {'value': all_channels[:top]}
 
         # Handle pagination
         while '@odata.nextLink' in response:
@@ -253,6 +255,8 @@ class MicrosoftTeams:
                 next_response.raise_for_status()
                 response = next_response.json()
                 all_channels.extend(response.get('value', []))
+                if top is not None and len(all_channels) >= top:
+                    return {'value': all_channels[:top]}
             except requests.exceptions.RequestException as e:
                 print(f"Error fetching next page: {e}")
                 return {'error': f'Failed to fetch subsequent pages: {e}', 'partial_results': all_channels}
